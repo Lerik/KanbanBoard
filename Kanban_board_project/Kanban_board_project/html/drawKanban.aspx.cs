@@ -14,14 +14,14 @@ namespace Kanban_board_project.html
     public partial class drawKanban : System.Web.UI.Page
     {
         List<Ext.Net.Panel> id = new List<Ext.Net.Panel>();
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             this.Panel1.MinHeight = 600;
             try
             {
 #if DEBUG
-         
+
 #endif
 
                 string connectionString = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
@@ -90,44 +90,44 @@ namespace Kanban_board_project.html
 
         void updatepositions()
         {
-                string connectionString = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
-                SqlConnection conexion = new SqlConnection(connectionString);
-                conexion.Open();
-                string query = "SELECT *  FROM [Kanbanboard].[dbo].[COLUMNA]where IDBOARD=" + Session["boardid"];
-                //string query = "SELECT *  FROM [Kanbanboard].[dbo].[COLUMNA]where IDBOARD=2 order by POSICION";
-                string query2 = "delete [Kanbanboard].[dbo].[COLUMNA] where IDBOARD=" + Session["boardid"];
-                //string query2 = "delete [Kanbanboard].[dbo].[COLUMNA] where IDBOARD=2 ";
+            string connectionString = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
+            SqlConnection conexion = new SqlConnection(connectionString);
+            conexion.Open();
+            string query = "SELECT *  FROM [Kanbanboard].[dbo].[COLUMNA]where IDBOARD=" + Session["boardid"];
+            //string query = "SELECT *  FROM [Kanbanboard].[dbo].[COLUMNA]where IDBOARD=2 order by POSICION";
+            string query2 = "delete [Kanbanboard].[dbo].[COLUMNA] where IDBOARD=" + Session["boardid"];
+            //string query2 = "delete [Kanbanboard].[dbo].[COLUMNA] where IDBOARD=2 ";
 
-                SqlCommand cmd = new SqlCommand(query, conexion);
-                SqlCommand cmd2 = new SqlCommand(query2, conexion);
-                cmd2.ExecuteNonQuery();
-                SqlDataAdapter ad = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            SqlCommand cmd2 = new SqlCommand(query2, conexion);
+            cmd2.ExecuteNonQuery();
+            SqlDataAdapter ad = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
 
-                ad.Fill(dt);
-                int x=0;
-                foreach (DataRow row in dt.Rows)
+            ad.Fill(dt);
+            int x = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                foreach (Container region in Panel1.Items)
                 {
-                    foreach (Container region in Panel1.Items)
-                    {
-                        Ext.Net.Panel pan = (Ext.Net.Panel)region.Items[0];
-                        row[buscar(dt,pan.Title)] = x;
-                        x++;
-                    }
-                }
-                SqlBulkCopy bc = new SqlBulkCopy(conexion);
-                bc.DestinationTableName = "[Kanbanboard].[dbo].[COLUMNA]";
-                DataRow[] row1 = new DataRow[dt.Rows.Count];
-                x = 0;
-                foreach (DataRow row in dt.Rows)
-                {
-                    row1[x] = row;
+                    Ext.Net.Panel pan = (Ext.Net.Panel)region.Items[0];
+                    row[buscar(dt, pan.Title)] = x;
                     x++;
                 }
+            }
+            SqlBulkCopy bc = new SqlBulkCopy(conexion);
+            bc.DestinationTableName = "[Kanbanboard].[dbo].[COLUMNA]";
+            DataRow[] row1 = new DataRow[dt.Rows.Count];
+            x = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                row1[x] = row;
+                x++;
+            }
 
-                bc.WriteToServer(row1);
+            bc.WriteToServer(row1);
 
-                conexion.Close();
+            conexion.Close();
         }
         public int buscar(DataTable dt, string s)
         {

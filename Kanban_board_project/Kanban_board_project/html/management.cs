@@ -13,6 +13,7 @@ using System.Net.Mail;
 
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace Kanban_board_project
 {
@@ -20,7 +21,7 @@ namespace Kanban_board_project
     {
         public Boolean yaExiste(String uName, String password)
         {
-            string conec = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
+            string conec = ConfigurationManager.ConnectionStrings["KanbanConnectionString"].ConnectionString;
             SqlConnection cone = new SqlConnection(conec);
 
             cone.Open();
@@ -39,7 +40,7 @@ namespace Kanban_board_project
 
         public Boolean yaExisteUser(String uName)
         {
-            string conec = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
+            string conec = ConfigurationManager.ConnectionStrings["KanbanConnectionString"].ConnectionString;
             SqlConnection cone = new SqlConnection(conec);
 
             cone.Open();
@@ -58,7 +59,7 @@ namespace Kanban_board_project
 
         public Boolean insertingRecord(string name, string profesion, string email, string user, string password)
         {
-            string conec = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
+            string conec = ConfigurationManager.ConnectionStrings["KanbanConnectionString"].ConnectionString;
             SqlConnection cone = new SqlConnection(conec);
 
             cone.Open();
@@ -74,12 +75,36 @@ namespace Kanban_board_project
             return true;
         }
 
-        public Boolean sendActivationMessage(string ToEmail, string ToName, string FromEmail, string FromPassword)
+        public Boolean sendActivationMessage(String ToEmail, String ToName, String ToProfession, String ToUsername, String FromEmail, String FromPassword)
         {
             var fromAddress = new MailAddress(FromEmail, "Kanban Boards Project");
             var toAddress = new MailAddress(ToEmail, ToName);
-            const string subject = "Confirmacion de Registro de Cuenta";
-            const string body = "Hey now!!";
+
+            String url = "";
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] data = new byte[4];
+            rng.GetBytes(data);
+            url += Convert.ToString(BitConverter.ToInt32(data, 0));
+            rng.GetBytes(data);
+            url += Convert.ToString(BitConverter.ToInt32(data, 0));
+            rng.GetBytes(data);
+            url += Convert.ToString(BitConverter.ToInt32(data, 0));
+
+            String textBody = "GRACIAS POR SUSCRIBIRSE A KANBAN BOARDS PROJECT";
+            textBody += "\n\nSu informacion ha sido procesada correctamente. A continuacion se muestra un resumen de la informacion enviada:\n\n";
+            textBody += "_____________________________________________________________\n";
+            textBody += "   " + ToName + "\n";
+            textBody += "   " + ToProfession + "\n";
+            textBody += "   " + ToUsername + "\n";
+            textBody += "_____________________________________________________________\n\n";
+            textBody += "Solo hace falta un paso mas para completar su suscripcion. A continuacion se presentara\n";
+            textBody += "un link para que usted pueda darle clic y procesar la activacion de su cuenta. Le recordamos\n";
+            textBody += "que suscribirse a nuestro servicio sin la activacion misma de su parte, no tendra autorizado\n";
+            textBody += "la creacion de proyectos a su cuenta ni ser un viewer de otros proyectos.\n\n";
+            textBody += "Link de Activacion: http://localhost:49163/html/UserActivated.aspx?Activation=" + ToUsername + "&username=" + url;
+            textBody = textBody.Replace("\r\n", "<br/>");
+
+            String subject = "Activacion de Registro de Cuenta";
 
             var smtp = new SmtpClient
             {
@@ -94,7 +119,7 @@ namespace Kanban_board_project
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body
+                Body = textBody,
             })
             {
                 smtp.Send(message);
@@ -108,11 +133,11 @@ namespace Kanban_board_project
         }
         public int getid(string usuario)
         {
-            string conec = ConfigurationManager.ConnectionStrings["Kanban"].ConnectionString;
+            string conec = ConfigurationManager.ConnectionStrings["KanbanConnectionString"].ConnectionString;
             SqlConnection cone = new SqlConnection(conec);
 
             cone.Open();
-            string query = "select IDUSUARIO from [Kanbanboard].[dbo].[USUARIOS] where USUARIO LIKE '" + usuario + "'"; 
+            string query = "select IDUSUARIO from [Kanban].[dbo].[USUARIOS] where USUARIO LIKE '" + usuario + "'"; 
             SqlCommand cmd = new System.Data.SqlClient.SqlCommand(query, cone);
             int id=(int)cmd.ExecuteScalar();
             cone.Close();
@@ -135,10 +160,6 @@ namespace Kanban_board_project
             return 0;
         }
 
-        private string DomainMapper(Match match)
-        {
-            return "";
-        }
 
         public Boolean correoRegistrado(string email)
         {
@@ -213,6 +234,21 @@ namespace Kanban_board_project
                 carta.PRIORIDAD = prioridad;
             }
             return true;
+        }
+
+        public Boolean ActivarUsuario(String User)
+        {
+            KanbanEntities ke = new KanbanEntities();
+            USUARIO userGotten = ke.USUARIOS.First(i => i.USUARIO1.CompareTo(User) == 0);
+            userGotten.ACTIVADO = 1;
+            return true;
+        }
+
+        public Int32 EstoyActivado(String User)
+        {
+            KanbanEntities ke = new KanbanEntities();
+            USUARIO userGotten = ke.USUARIOS.First(i => i.USUARIO1.CompareTo(User) == 0);
+            return (Int32)userGotten.ACTIVADO;
         }
     }
 }
