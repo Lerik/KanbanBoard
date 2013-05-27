@@ -8,53 +8,53 @@ using Kanban_board_project;
 
 namespace Kanban_board_project.html
 {
-    public partial class register : System.Web.UI.Page
+    public partial class login : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["user"] != null)
                 Response.Redirect("Dashboard.aspx");
 
-            if (Session["LblErrorMessage"] != null)
+            if (Application["LblErrorMessage"] != null)
             {
-                this.LblErrorMessage.Text = Session["LblErrorMessage"].ToString();
-                Session["LblErrorMessage"] = null;
+                this.LblErrorMessage.Text = Application["LblErrorMessage"].ToString();
+                Application["LblErrorMessage"] = null;
             }
 
-            if (Session["LblEmail"] != null)
+            if (Application["LblEmail"] != null)
             {
-                this.LblEmail.Text = Session["LblEmail"].ToString();
-                Session["LblEmail"] = null;
+                this.LblEmail.Text = Application["LblEmail"].ToString();
+                Application["LblEmail"] = null;
             }
 
-            if (Session["LblUser"] != null)
+            if (Application["LblUser"] != null)
             {
-                this.LblUser.Text = Session["LblUser"].ToString();
-                Session["LblUser"] = null;
+                this.LblUser.Text = Application["LblUser"].ToString();
+                Application["LblUser"] = null;
             }
 
-            if (Session["LblImage"] != null)
+            if (Application["LblImage"] != null)
             {
-                this.LblImage.Text = Session["LblImage"].ToString();
-                Session["LblImage"] = null;
+                this.LblImage.Text = Application["LblImage"].ToString();
+                Application["LblImage"] = null;
             }
 
-            if (Session["Name"] != null)
+            if (Application["Name"] != null)
             {
-                this.name.Value = Session["Name"].ToString();
-                Session["Name"] = null;
+                this.name.Value = Application["Name"].ToString();
+                Application["Name"] = null;
             }
 
-            if (Session["Email"] != null)
+            if (Application["Email"] != null)
             {
-                this.email.Value = Session["Email"].ToString();
-                Session["Email"] = null;
+                this.email.Value = Application["Email"].ToString();
+                Application["Email"] = null;
             }
 
-            if (Session["User"] != null)
+            if (Application["User"] != null)
             {
-                this.user.Value = Session["User"].ToString();
-                Session["User"] = null;
+                this.user.Value = Application["User"].ToString();
+                Application["User"] = null;
             }
         }
 
@@ -62,10 +62,10 @@ namespace Kanban_board_project.html
         {
             if (code.Value.CompareTo(Session["CaptchaImageText"].ToString()) != 0)
             {
-                Session["LblImage"] = " Código incorrecto";
-                Session["Name"] = string.Format("{0}", Request.Form["name"]);
-                Session["Email"] = string.Format("{0}", Request.Form["email"]);
-                Session["User"] = string.Format("{0}", Request.Form["user"]);
+                Application["LblImage"] = " Código incorrecto";
+                Application["Name"] = string.Format("{0}", Request.Form["name"]);
+                Application["Email"] = string.Format("{0}", Request.Form["email"]);
+                Application["User"] = string.Format("{0}", Request.Form["user"]);
                 Response.Redirect("register.aspx");
                 return;
             }
@@ -80,18 +80,18 @@ namespace Kanban_board_project.html
 
             if (Validation != 0)
             {
-                Session["Name"] = string.Format("{0}", Request.Form["name"]);
-                Session["Email"] = string.Format("{0}", Request.Form["email"]);
-                Session["User"] = string.Format("{0}", Request.Form["user"]);
+                Application["Name"] = string.Format("{0}", Request.Form["name"]);
+                Application["Email"] = string.Format("{0}", Request.Form["email"]);
+                Application["User"] = string.Format("{0}", Request.Form["user"]);
 
                 if (Validation == 1)
-                    Session["LblEmail"] = " Sintaxis de correo errónea";
+                    Application["LblEmail"] = " Sintaxis de correo errónea";
 
                 if (Validation == 2)
-                    Session["LblEmail"] = " Dominio no encontrado";
+                    Application["LblEmail"] = " Dominio no encontrado";
 
                 if (Validation == 3)
-                    Session["LblEmail"] = " Correo Electrónico no disponible";
+                    Application["LblEmail"] = " Correo Electrónico no disponible";
 
                 Response.Redirect("register.aspx");
                 return;
@@ -99,20 +99,20 @@ namespace Kanban_board_project.html
 
             if (mg.correoRegistrado(emailText))
             {
-                Session["LblEmail"] = " Este correo ya esta en uso";
-                Session["Name"] = string.Format("{0}", Request.Form["name"]);
-                Session["Email"] = string.Format("{0}", Request.Form["email"]);
-                Session["User"] = string.Format("{0}", Request.Form["user"]);
+                Application["LblEmail"] = " Este correo ya esta en uso";
+                Application["Name"] = string.Format("{0}", Request.Form["name"]);
+                Application["Email"] = string.Format("{0}", Request.Form["email"]);
+                Application["User"] = string.Format("{0}", Request.Form["user"]);
                 Response.Redirect("register.aspx");
                 return;
             }
 
             if (mg.yaExisteUser(userText))
             {
-                Session["LblUser"] = " Username no disponible";
-                Session["Name"] = string.Format("{0}", Request.Form["name"]);
-                Session["Email"] = string.Format("{0}", Request.Form["email"]);
-                Session["User"] = string.Format("{0}", Request.Form["user"]);
+                Application["LblUser"] = " Username no disponible";
+                Application["Name"] = string.Format("{0}", Request.Form["name"]);
+                Application["Email"] = string.Format("{0}", Request.Form["email"]);
+                Application["User"] = string.Format("{0}", Request.Form["user"]);
                 Response.Redirect("register.aspx");
                 return;
             }
@@ -120,9 +120,19 @@ namespace Kanban_board_project.html
             {
                 string nameText = string.Format("{0}", Request.Form["name"]);
                 string profText = DropDownList1.SelectedValue;
-                mg.insertingRecord(nameText, profText, emailText, userText, passText);
-                mg.sendActivationMessage(emailText, nameText, profText, userText, "jj.cob@unitec.edu", "ramirezcruz2013");
-                Response.Redirect("Dashboard.aspx");
+                try
+                {
+                    mg.insertingRecord(nameText, profText, emailText, userText, passText);
+                    mg.sendActivationMessage(emailText, nameText, "jj.cob@unitec.edu", "ramirezcruz2013");
+                    Response.Redirect("Dashboard.aspx");
+                }
+                catch(Exception)
+                {
+                    Application["LblUser"] = " Username no disponible";
+                    Application["Name"] = string.Format("{0}", Request.Form["name"]);
+                    Application["Email"] = string.Format("{0}", Request.Form["email"]);
+                    Application["User"] = string.Format("{0}", Request.Form["user"]);
+                }
             }
         }
     }

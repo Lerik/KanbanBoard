@@ -14,6 +14,11 @@ namespace Kanban_board_project.html
     public partial class Configuration : System.Web.UI.Page
     {
 
+#if debug
+                Session["user"] = "JUAN";
+                Session["userid"] = 1;
+#endif
+
         List<Ext.Net.Panel> id = new List<Ext.Net.Panel>();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -46,22 +51,25 @@ namespace Kanban_board_project.html
                 SqlCommand cmd = new SqlCommand(query, conexion);
                 SqlCommand cmd2 = new SqlCommand(query2, conexion);
                 string boardname = cmd2.ExecuteScalar().ToString();
-                this.Panel1.Title = boardname;
+                this.Panel.Title = boardname;
                 SqlDataAdapter ad = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
 
                 ad.Fill(dt);
-
+                int x = 0;
                 foreach (DataRow row in dt.Rows)
                 {
-                    Ext.Net.Panel p = new Ext.Net.Panel();
+                    /*Ext.Net.Panel p = new Ext.Net.Panel();
                     p.Title = row["NOMBRE"].ToString();
                     p.BodyPadding = 20;
                     p.Flex = 1;
                     p.AutoScroll = true;
                     p.TitleAlign = Ext.Net.TitleAlign.Center;
                     this.Panel1.Items.Add(p);
-                    id.Add(p);
+                    id.Add(p);*/
+                    ((Ext.Net.Panel)this.Panel.Items[x]).Hidden = false;
+                    ((Ext.Net.Panel)this.Panel.Items[x]).DataBind();
+                    x++;
                 }
 
                 this.Panel1.DataBind();
@@ -82,8 +90,8 @@ namespace Kanban_board_project.html
             ltr.Text = @"<script type='text/javascript'> alert('" + message + "') </script>";
             page.Controls.Add(ltr);
         }
-        [DirectMethod]
-        protected void holamundo(object sender, DirectEventArgs e)
+
+        protected void holamundo()
         {
             MessageBoxShow(this, "hola mundo");
         }
