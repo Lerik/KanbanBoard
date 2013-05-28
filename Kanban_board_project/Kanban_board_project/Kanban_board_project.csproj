@@ -103,6 +103,7 @@
     <Content Include="html\images\icon_default.jpg" />
     <Content Include="html\images\multimedia\logo.png" />
     <Content Include="html\images\multimedia\logo_icon.png" />
+    <Content Include="html\index.aspx" />
     <Content Include="html\login.html" />
     <Content Include="html\login_files\formoid1\check-radio-bg.png" />
     <Content Include="html\login_files\formoid1\down.png" />
@@ -110,6 +111,7 @@
     <Content Include="html\login_files\formoid1\formoid-default.js" />
     <Content Include="html\login_files\formoid1\jquery.min.js" />
     <Content Include="html\login_files\formoid1\sprite.png" />
+    <Content Include="html\Logout.aspx" />
     <Content Include="html\main.aspx" />
     <Content Include="html\Midashboard.aspx" />
     <Content Include="html\Newboard.aspx" />
@@ -119,8 +121,10 @@
     <Content Include="html\register.aspx" />
     <Content Include="html\registration.html" />
     <Content Include="html\style.css" />
+    <Content Include="html\UserActivated.aspx" />
     <Content Include="html\usuarioXboard.aspx" />
     <Content Include="html\WebForm1.aspx" />
+    <Content Include="html\yourKanban.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -158,6 +162,19 @@
     </Compile>
     <Compile Include="html\Handler1.ashx.cs">
       <DependentUpon>Handler1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="html\imagenes.Designer.cs" />
+    <Compile Include="html\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="html\management.cs" />
     <Compile Include="html\App_Code\RandomImage.cs" />
@@ -204,6 +221,12 @@
     <Compile Include="html\register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="html\UserActivated.aspx.cs">
+      <DependentUpon>UserActivated.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\UserActivated.aspx.designer.cs">
+      <DependentUpon>UserActivated.aspx</DependentUpon>
+    </Compile>
     <Compile Include="html\usuarioXboard.aspx.cs">
       <DependentUpon>usuarioXboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -217,6 +240,12 @@
     </Compile>
     <Compile Include="html\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\yourKanban.aspx.cs">
+      <DependentUpon>yourKanban.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="html\yourKanban.aspx.designer.cs">
+      <DependentUpon>yourKanban.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
