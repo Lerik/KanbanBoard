@@ -10,20 +10,24 @@
     <form id="form1" runat="server">
     <div>
     
+        <br />
         <asp:ScriptManager ID="ScriptManager1" runat="server">
-            <Scripts>
-                <asp:ScriptReference Path="C:\Users\Boston\Documents\Visual Studio 2010\Projects\Kanban_board_project\Kanban_board_project\html\WebForm1.aspx.cs" />
-            </Scripts>
         </asp:ScriptManager>
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                <br />
+                <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                <br />
+                <asp:Button ID="Button1" runat="server" onclick="Button1_Click1" 
+                    Text="Button" />
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="Button1" />
+            </Triggers>
         </asp:UpdatePanel>
         <br />
-        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
         <br />
-        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
-        <br />
-        <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
-            Text="Button" />
     
     </div>
     </form>

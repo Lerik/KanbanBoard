@@ -1,33 +1,37 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="Kanban_board_project.html.login"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="Kanban_board_project.html.register"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Kanban Boards Project - Registro</title>
-
+<title>Kanban Boards Project - Registrarse</title>
+<link rel="shortcut icon" href="images/webicon.jpg" />
 <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript">
+    </script>
 </head>
+
 <body>
-<div class="style_2"><span class="style3"><a href="http://www.zonnebank-studio-vergelijk.nl" title="Zonnebank Zonnestudio"><strong>Zonnebank zonnestudio</strong></a></span></div>
+<div class="style_2"><span class="style3"></span></div>
 <div id="wrap">
 <div id="topbar">
-  <h1 id="sitename"><a href="main.aspx" target="_blank"><img src="images/multimedia/logo.png" width=250 height=65/></a></h1>
+<h1 id="sitename"><a href="index.aspx" target="_blank"><img src="images/multimedia/logo.png" width=250 height=65/></a></h1>
   <div id="menus">
   <ul id="topmenu">
-<li><a href="main.aspx">Iniciar Sesión</a>
+<li><a href="index.aspx">Iniciar Sesión</a>
 </li>
 </ul>
 </div>
 </div>
+
 <div id="content">
 <div id="mainpage">
 <p>
 
-<link rel="stylesheet" href="login_files/formoid1/formoid-default.css" type="text/css" />
+            <link rel="stylesheet" href="login_files/formoid1/formoid-default.css" type="text/css" />
 <script type="text/javascript" src="login_files/formoid1/jquery.min.js"></script>
-<form enctype="multipart/form-data" class="formoid-default" style="background-color:#FFFFFF;font-size:16px;font-family:Tahoma,Geneva,sans-serif;width:480px" title="Kanban Board Project" method="post" runat=server>
+<form id="Form1" enctype="multipart/form-data" class="formoid-default" style="background-color:#FFFFFF;font-size:16px;font-family:Tahoma,Geneva,sans-serif;width:480px" method="post" runat=server>
 	
 <asp:ScriptManager ID="ScriptManager1" runat="server" 
     ScriptPath="C:\Users\Boston\Documents\Visual Studio 2010\Projects\Kanban_board_project\Kanban_board_project\html\register.aspx.cs">
@@ -59,7 +63,7 @@
             ID="LblUser" runat="server" Font-Italic="True" ForeColor="#FF9900"></asp:Label>
         </span></label><input type="text" name="input1" id="user" required="required" runat=server/></div>
 	<div class="element-password" ><label class="title">Contraseña<span class="required">*</span></label><input type="password" name="password" value="" id="pass" required="required" runat=server/></div>
-	<div class="element-file" ><label class="title">Subir su imagen de identificación</label><input type="file" name="file" id="image" runat=server/></div>
+    <div class="element-file" ><label class="title">Subir su imagen de identificación</label><asp:FileUpload ID="imgFile" runat="server" /></div>
     <div class="element-email" ><label class="title">Código en la imagen<span class="required">*<asp:Label 
             ID="LblImage" runat="server" Font-Italic="True" ForeColor="#FF9900"></asp:Label>
         </span></label><input type="text" name="code" value="" id="code" required="required" runat=server/></div>
@@ -70,25 +74,11 @@
     </div>
 
 </form>
-<script type="text/javascript" src="registration_files/formoid1/formoid-default.js"></script>
-
+<script type="text/javascript" src="login_files/formoid1/formoid-default.js"></script>
 </p>
 </div>
-<div id="sidebar">
-
-</div>
-<div id="sidebarcontents"> 
-<ul id="menu">
-
-</ul>
-</div>
-
-  <div id="sidebarbottom"></div>
-</div>
-<div class="clear"></div>
-</div>
-
+    
 </div>
 </body>
-
 </html>
+

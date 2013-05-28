@@ -8,47 +8,76 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kanban Boards Project</title>
-
+<link rel="shortcut icon" href="images/webicon.jpg" />
 <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript">
+    </script>
 </head>
 
 <body>
-    <form id="form1" runat="server">
-<div class="style3"></div><div class="style_2"><span class="style3"><a href="http://www.zonnebank-studio-vergelijk.nl" title="Zonnebank Zonnestudio"><strong>Zonnebank zonnestudio</strong></a></span></div>
+<div class="style_2"><span class="style3"></span></div>
 <div id="wrap">
 <div id="topbar">
-  <h1 id="sitename"><a href="Dashboard.aspx" target="_blank"><img src="images/multimedia/logo.png" width=180 height=65/></a></h1>
+<h1 id="sitename"><a href="index.aspx" target="_blank"><img src="images/multimedia/logo.png" width=250 height=65/></a></h1>
+  <div id="menus">
+  <ul id="topmenu">
+<li><a href="Logout.aspx">Cerrar Sesión</a>
+</li>
+</ul>
 </div>
 </div>
-        <center>
-            <br />
+
+<div id="content">
+<div id="mainpage">
+<p>
+
+            <link rel="stylesheet" href="login_files/formoid1/formoid-default.css" type="text/css" />
+<script type="text/javascript" src="login_files/formoid1/jquery.min.js"></script>
+<form id="Form1" class="formoid-default" style="background-color:#FFFFFF;font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;width:480px" runat=server>
+	
+    <div class="element-text" ><h2 class="title">Mis boards</h2></div>
+
+    <center>
+
             <ext:ResourceManager ID="ResourceManager1" runat="server" />
             <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
             </asp:ToolkitScriptManager>
-            <br />
-            <br />
             <ext:Button ID="Button1" runat="server" OnDirectClick="Button1_DirectClick" Text="New Kanbanboard" />
             <br />
-
-        <asp:GridView ID="GridView1" runat="server" RowStyle-BackColor="#0000cc" AlternatingRowStyle-ForeColor="#ffffff" RowStyle-ForeColor="#ffffff" AlternatingRowStyle-BackColor="#3399ff" HeaderStyle-BackColor="#000000" HeaderStyle-ForeColor="White" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" DataKeyNames="IDBOARD" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnRowCommand="GridView1_RowCommand">
-            <AlternatingRowStyle BackColor="#3399FF" ForeColor="White" />
+        <asp:GridView ID="GridView1" runat="server" RowStyle-BackColor="#0000cc" 
+                AlternatingRowStyle-ForeColor="#ffffff" RowStyle-ForeColor="#ffffff" 
+                AlternatingRowStyle-BackColor="#3399ff" HeaderStyle-BackColor="#000000" 
+                HeaderStyle-ForeColor="White" AllowPaging="True" AllowSorting="True" 
+                AutoGenerateColumns="False" DataSourceID="SqlDataSource1" 
+                DataKeyNames="IDBOARD" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" 
+                OnRowCommand="GridView1_RowCommand" CellPadding="4" ForeColor="#333333" 
+                GridLines="None" Width="471px">
+            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
-                <asp:CommandField SelectText="Ver" ShowSelectButton="True">
-                <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                </asp:CommandField>
-                <asp:BoundField DataField="IDBOARD" HeaderText="IDBOARD" SortExpression="IDBOARD" InsertVisible="False" ReadOnly="True" />
-                <asp:BoundField DataField="Expr1" HeaderText="Nombre" SortExpression="Expr1" ReadOnly="True" />
-                <asp:BoundField DataField="Expr2" HeaderText="Fecha" SortExpression="Expr2" ReadOnly="True" />
-                <asp:ButtonField CommandName="borr" Text="Delete" />
+                <asp:BoundField DataField="IDBOARD" HeaderText="ID Board" SortExpression="IDBOARD" InsertVisible="False" ReadOnly="True" />
+                <asp:BoundField DataField="Expr1" HeaderText="Nombre del Board" SortExpression="Expr1" 
+                    ReadOnly="True" />
+                <asp:BoundField DataField="Expr2" HeaderText="Fecha de Inicialización" SortExpression="Expr2" 
+                    ReadOnly="True" />
             </Columns>
-            <HeaderStyle BackColor="Black" ForeColor="White" />
-            <RowStyle BackColor="#0000CC" ForeColor="White" />
+            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+            <EditRowStyle BackColor="#999999" />
             <EmptyDataTemplate>
-                <asp:Label runat="server" Text="No se an creado boards, animate y crea 1"/>
+                <asp:Label ID="Label1" runat="server" Text="No se han creado boards"/>
             </EmptyDataTemplate>
+            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#E9E7E2" />
+            <SortedAscendingHeaderStyle BackColor="#506C8C" />
+            <SortedDescendingCellStyle BackColor="#FFFDF8" />
+            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:Kanban %>" SelectCommand="SELECT BOARDS.IDBOARD, CONVERT (varchar, BOARDS.NOMBRE) AS Expr1, CONVERT (varchar, BOARDS.FECHAINICIO) AS Expr2 
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                ConnectionString="<%$ ConnectionStrings:KanbanConnectionString %>" 
+                
+                SelectCommand="SELECT BOARDS.IDBOARD, CONVERT (varchar, BOARDS.NOMBRE) AS Expr1, CONVERT (varchar, BOARDS.FECHAINICIO) AS Expr2 
 FROM BOARDS 
 INNER JOIN USUARIOSxBOARD ON BOARDS.IDBOARD = USUARIOSxBOARD.IDBOARD 
 INNER JOIN USUARIOS ON USUARIOSxBOARD.IDUSUARIO = USUARIOS.IDUSUARIO 
@@ -58,7 +87,42 @@ WHERE (USUARIOSxBOARD.IDUSUARIO =@user) AND (USUARIOSxBOARD.ROLE = 2 OR USUARIOS
                 </SelectParameters>
             </asp:SqlDataSource>
     </center>
-        </form>
 
+
+<asp:TextBox ID="TextBox1" runat="server" Width="144px"></asp:TextBox>
+<asp:Button ID="Button2" runat="server" Text="Ir a Board" onclick="Button2_Click" />
+
+
+
+</form>
+<script type="text/javascript" src="login_files/formoid1/formoid-default.js"></script>
+</p>
+</div>
+    
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

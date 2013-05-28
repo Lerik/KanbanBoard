@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kanban Boards Project</title>
-
+<link rel="shortcut icon" href="images/webicon.jpg" />
 <link href="style.css" rel="stylesheet" type="text/css" />
     <script language="javascript" type="text/javascript">
     </script>
@@ -31,7 +31,7 @@
 
             <link rel="stylesheet" href="login_files/formoid1/formoid-default.css" type="text/css" />
 <script type="text/javascript" src="login_files/formoid1/jquery.min.js"></script>
-<form id="Form1" class="formoid-default" style="background-color:#FFFFFF;font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;width:480px" title="My Formoid form" method="post" runat=server>
+<form id="Form1" class="formoid-default" style="background-color:#FFFFFF;font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;width:480px" method="post" runat=server>
 	
     <div class="element-text" ><h2 class="title"><asp:Label ID="Label2" runat="server" Text="Activación Completa"></asp:Label></h2></div>
 

@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kanban Boards Project</title>
-
+<link rel="shortcut icon" href="images/webicon.jpg" />
 <link href="style.css" rel="stylesheet" type="text/css" />
     <script language="javascript" type="text/javascript">
     </script>
@@ -33,8 +33,10 @@
 
             <link rel="stylesheet" href="login_files/formoid1/formoid-default.css" type="text/css" />
 <script type="text/javascript" src="login_files/formoid1/jquery.min.js"></script>
-<form id="Form1" class="formoid-default" style="background-color:#FFFFFF;font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;width:480px" title="My Formoid form" runat=server>
+<form id="Form1" class="formoid-default" style="background-color:#FFFFFF;font-size:14px;font-family:'Open Sans','Helvetica Neue','Helvetica',Arial,Verdana,sans-serif;width:480px" runat=server>
 	
+    <asp:Label ID="LblError" runat="server" Font-Italic="True" ForeColor="#FF6600"></asp:Label>
+
     <div class="element-text" ><h2 class="title">Iniciar Sesión</h2></div>
 
 <asp:ScriptManager ID="ScriptManager1" runat="server">

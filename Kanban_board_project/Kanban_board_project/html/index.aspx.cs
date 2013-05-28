@@ -19,22 +19,28 @@ namespace Kanban_board_project.html
             if (Session["user"] != null)
                 Response.Redirect("Dashboard.aspx");
 
-            if (Application["LblUser"] != null)
+            if (Session["LblUser"] != null)
             {
-                this.LblUser.Text = Application["LblUser"].ToString();
-                Application["LblUser"] = null;
+                this.LblUser.Text = Session["LblUser"].ToString();
+                Session["LblUser"] = null;
             }
 
-            if (Application["TxtUser"] != null)
+            if (Session["TxtUser"] != null)
             {
-                user.Value = Application["TxtUser"].ToString();
-                Application["TxtUser"] = null;
+                user.Value = Session["TxtUser"].ToString();
+                Session["TxtUser"] = null;
             }
 
-            if (Application["LblPass"] != null)
+            if (Session["LblPass"] != null)
             {
-                this.LblPass.Text = Application["LblPass"].ToString();
-                Application["LblPass"] = null;
+                this.LblPass.Text = Session["LblPass"].ToString();
+                Session["LblPass"] = null;
+            }
+
+            if (Session["LblError"] != null)
+            {
+                this.LblError.Text = Session["LblError"].ToString();
+                Session["LblError"] = null;
             }
         }
 
@@ -48,18 +54,26 @@ namespace Kanban_board_project.html
 
             if (mg.yaExiste(userText, passText))
             {
-                Session["user"] = userText;
-                Session["userid"] = mg.getid(userText);
-                Response.Redirect("Dashboard.aspx");
+                if (mg.EstoyActivado(userText) == 1)
+                {
+                    Session["user"] = userText;
+                    Session["userid"] = mg.getid(userText);
+                    Response.Redirect("Dashboard.aspx");
+                }
+                else
+                {
+                    Session["LblError"] = "Todavía no ha activado su cuenta. Para realizar su activación, ingrese a su cuenta de correo con la que registro su suscripción, y allí verá un mensaje de correo de nuestro sitio con el link de activación.";
+                    Response.Redirect("index.aspx");
+                }
             }
             else
             {
                 if (!mg.yaExisteUser(userText))
-                    Application["LblUser"] = " Usuario no existe";
+                    Session["LblUser"] = " Usuario no existe";
                 else
                 {
-                    Application["TxtUser"] = userText;
-                    Application["LblPass"] = " Contraseña Incorrecta";
+                    Session["TxtUser"] = userText;
+                    Session["LblPass"] = " Contraseña Incorrecta";
                 }
 
                 Response.Redirect("index.aspx");

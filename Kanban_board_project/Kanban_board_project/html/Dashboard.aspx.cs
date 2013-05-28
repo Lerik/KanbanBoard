@@ -11,7 +11,12 @@ namespace Kanban_board_project.html
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["user"] == null)
+            {
+                Session["userid"] = null;
+                Response.Redirect("index.aspx");
+                return;
+            }
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -42,6 +47,12 @@ namespace Kanban_board_project.html
         {
 
             Response.Redirect("~/html/Crearboard.aspx");
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Session["boardid"] = this.TextBox1.Text;
+            Response.Redirect("~/html/drawKanban.aspx");
         }
     }
 }

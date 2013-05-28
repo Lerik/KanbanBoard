@@ -12,8 +12,19 @@ namespace Kanban_board_project.html
     public partial class Crearboard : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        { 
+        {
+            if (Session["user"] == null)
+            {
+                Session["userid"] = null;
+                Response.Redirect("index.aspx");
+                return;
+            }
 
+            if (Session["LblErrorBoard"] != null)
+            {
+                this.LblErrorBoard.Text = Session["LblErrorBoard"].ToString();
+                Session["LblErrorBoard"] = null;
+            }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -28,7 +39,7 @@ namespace Kanban_board_project.html
             string query2 = "select count(*) from [Kanban].[dbo].[BOARDS]";
             string query3 = "select IDUSUARIO from [Kanban].[dbo].[USUARIOS] where USUARIO LIKE '" + Session["user"] + "'";
             string query4 = "insert into [Kanban].[dbo].[USUARIOSxBOARD] ([IDUSUARIO],[IDBOARD],[ROLE]) values(@IDUSUARIO,@IDBOARD,@ROLE)";
-            string query6 = "select NOMBRE from [Kanban].[dbo].[BOARDS] where NOMBRE like '" + this.txtnombre.Text + "'";
+            string query6 = "select NOMBRE from [Kanban].[dbo].[BOARDS] where NOMBRE like '" + this.board.Value + "'";
             SqlCommand cmd = new SqlCommand(query, conexion);
             SqlCommand cmd2 = new SqlCommand(query2, conexion);
             SqlCommand cmd3 = new SqlCommand(query3, conexion);
@@ -37,11 +48,12 @@ namespace Kanban_board_project.html
             Object enuso = cmd6.ExecuteScalar();
             if (enuso != null)
             {
-                MessageBoxShow(this, "ese board ya existe!");
+                Session["LblErrorBoard"] = "Este nombre de proyecto ya esta registro en su cuenta. Utilice otro nombre.";
+                return;
             }
             else
             {
-                cmd.Parameters.AddWithValue("@nombre", this.txtnombre.Text);
+                cmd.Parameters.AddWithValue("@nombre", this.board.Value);
                 cmd.Parameters.AddWithValue("@fecha", DateTime.Today.Day + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
                 cmd.Parameters.AddWithValue("@columna", 4);
                 cmd.ExecuteNonQuery();
@@ -63,18 +75,17 @@ namespace Kanban_board_project.html
                 SqlCommand cmd5 = new SqlCommand(query5, conexion);
                 cmd5.ExecuteNonQuery();
 
-
+                Session["boardid"] = idboard;
                 conexion.Close();
                 
-               Context.Response.Redirect("~/html/usuarioXboard.aspx?idb="+idboard);
             }
-                Session["boardid"]=1;
             }
             catch (Exception ex)
             {
                 MessageBoxShow(this,ex.StackTrace);
             }
 
+            Response.Redirect("~/html/usuarioXboard.aspx");
         }
 
         private void MessageBoxShow(Page page, string message)
